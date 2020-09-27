@@ -20,10 +20,10 @@ Feature: Automate registration flow
 	    Then user should see validation "<error>"
 	    
 	    Examples: 
-	    |invalid					|password	|error											|
-	    |quality@jukinmedia.com		|match		|Email not available.							|
+	    |invalid					|password	|error								|
+	    |quality@jukinmedia.com			|match		|Email not available.						|
 	    |praveen					|match		|Please enter a valid Email.					|   
 	    |praveen@gmail				|match		|Please enter a valid Email.					| 
 	    |praveen@.com				|match		|Please enter a valid Email.					|
-	    |praveen					|mismatch	|Password confirmation must must match Password	|
-	    |praveen@gmail.com			|null		|Please fill out all fields						|			
+	    |praveen					|mismatch	|Password confirmation must must match Password			|
+	    |praveen@gmail.com				|null		|Please fill out all fields					|			

@@ -18,5 +18,5 @@ Background:
 	    Then user should get "<outcome>"
 	    Examples: 
 	    |username					|password				|outcome								|
-	    |invalid					|						|Incorrect email/password combination	|
-	    |invalid					|invalid				|Incorrect email/password combination	|			
+	    |praveen					|					|Incorrect email/password combination	|
+	    |praveen					|lovely					|Incorrect email/password combination	|			

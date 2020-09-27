@@ -19,7 +19,7 @@ Feature: Automate forgot password flow
 	    Then user should shown error message "Please enter a valid email"
 	    
 	    Examples: 
-	    |mail						|
-	    |							|
+	    |mail					|
+	    |						|
 	    |praveen@gmail				|
 	    |praveen					|			
