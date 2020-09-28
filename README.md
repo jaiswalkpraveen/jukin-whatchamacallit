@@ -12,21 +12,21 @@ This QA assignment contains test cases around login flow.
 ## General info
 The task is to create automated UI tests for a Login Flow (all 4 screens).The Login Flow consists of these pages:
 
-Login Page
-Forgot Password Page
-Register Page
+Login Page,
+Forgot Password Page,
+Register Page,
 Success Page
 
 ## Prerequisite
-application should be up
+http://localhost:8080/WhatChaMaCallIt should be up and running
 	
 ## Setup
-To run this project, install below items locally : 
+To run this project, install below items locally: 
 
 ```
 Java 8
 Maven
-chrome webdriver need to be installed inside grailsUIAutomation folder from https://chromedriver.storage.googleapis.com/index.html?path=86.0.4240.22/ as per OS
+chrome webdriver and place it in grailsUIAutomation folder (Please download webdriver from here: https://chromedriver.storage.googleapis.com/index.html)
 ```
 
 ## Running the tests
