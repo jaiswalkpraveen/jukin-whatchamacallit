@@ -9,17 +9,20 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import com.grails.enums.DriverType;
 import com.grails.enums.EnvironmentType;
+import com.grails.enums.OSType;;
 
 
 public class WebDriverManager {
 	private WebDriver driver;
 	private static DriverType driverType;
+	private static OSType osType;
 	private static EnvironmentType environmentType;
 	private static final String CHROME_DRIVER_PROPERTY = "webdriver.chrome.driver";
 
 	public WebDriverManager() {
 		driverType = FileReaderManager.getInstance().getConfigReader().getBrowser();
 		environmentType = FileReaderManager.getInstance().getConfigReader().getEnvironment();
+		osType = OSType.valueOf(System.getProperty("os.name").toUpperCase());
 	}
 
 	public WebDriver getDriver() {
@@ -45,8 +48,8 @@ public class WebDriverManager {
         switch (driverType) {	    
         case FIREFOX : driver = new FirefoxDriver();
 	    	break;
-        case CHROME : 
-        	System.setProperty(CHROME_DRIVER_PROPERTY, System.getProperty("user.dir") + File.separator + FileReaderManager.getInstance().getConfigReader().getDriverPath() + File.separator + "chromedriver");
+        case CHROME :        	
+        	launchOSBasedDriver(osType);
         	driver = new ChromeDriver();
         	driver.manage().window().maximize();
 		    driver.manage().timeouts().implicitlyWait(FileReaderManager.getInstance().getConfigReader().getImplicitlyWait(), TimeUnit.SECONDS);
@@ -56,6 +59,20 @@ public class WebDriverManager {
         }
 		return driver;
 	}	
+
+	private void launchOSBasedDriver(OSType osType) {
+    	switch (osType) {
+        case LINUX: 
+        	System.setProperty(CHROME_DRIVER_PROPERTY, System.getProperty("user.dir") + File.separator + FileReaderManager.getInstance().getConfigReader().getDriverPath() + File.separator + "linux" +File.separator + "chromedriver");
+        	break;
+        case WINDOWS:
+        	System.setProperty(CHROME_DRIVER_PROPERTY, System.getProperty("user.dir") + File.separator + FileReaderManager.getInstance().getConfigReader().getDriverPath() + File.separator + "windows" +File.separator + "chromedriver.exe");
+        	break;
+        case MAC:
+        	System.setProperty(CHROME_DRIVER_PROPERTY, System.getProperty("user.dir") + File.separator + FileReaderManager.getInstance().getConfigReader().getDriverPath() + File.separator + "mac" + File.separator + "chromedriver");
+        	break;
+    	}
+	}
 
 	public void closeDriver() {
 		driver.close();
