@@ -49,7 +49,7 @@ public class WebDriverManager {
         case FIREFOX : driver = new FirefoxDriver();
 	    	break;
         case CHROME :        	
-        	launchOSBasedDriver(osType);
+        	System.setProperty(CHROME_DRIVER_PROPERTY, System.getProperty("user.dir") + File.separator + FileReaderManager.getInstance().getConfigReader().getDriverPath() + File.separator + getOSBasedDriver(osType));
         	driver = new ChromeDriver();
         	driver.manage().window().maximize();
 		    driver.manage().timeouts().implicitlyWait(FileReaderManager.getInstance().getConfigReader().getImplicitlyWait(), TimeUnit.SECONDS);
@@ -60,18 +60,20 @@ public class WebDriverManager {
 		return driver;
 	}	
 
-	private void launchOSBasedDriver(OSType osType) {
+	private String getOSBasedDriver(OSType osType) {
+		String driverName = "";
     	switch (osType) {
         case LINUX: 
-        	System.setProperty(CHROME_DRIVER_PROPERTY, System.getProperty("user.dir") + File.separator + FileReaderManager.getInstance().getConfigReader().getDriverPath() + File.separator + "linux" +File.separator + "chromedriver");
+        	driverName ="linux" +File.separator + "chromedriver";
         	break;
         case WINDOWS:
-        	System.setProperty(CHROME_DRIVER_PROPERTY, System.getProperty("user.dir") + File.separator + FileReaderManager.getInstance().getConfigReader().getDriverPath() + File.separator + "windows" +File.separator + "chromedriver.exe");
+        	driverName ="windows" +File.separator + "chromedriver.exe";
         	break;
         case MAC:
-        	System.setProperty(CHROME_DRIVER_PROPERTY, System.getProperty("user.dir") + File.separator + FileReaderManager.getInstance().getConfigReader().getDriverPath() + File.separator + "mac" + File.separator + "chromedriver");
+        	driverName ="mac" +File.separator + "chromedriver";
         	break;
     	}
+    	return driverName;
 	}
 
 	public void closeDriver() {
