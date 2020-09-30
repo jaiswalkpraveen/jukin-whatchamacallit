@@ -11,6 +11,7 @@ public class PageObjectManager {
 	private LoginPage loginPage;
 	private ForgotPasswordPage forgotPasswordPage;
 	private RegisterPage registerPage;
+	
 	public PageObjectManager(WebDriver driver) {
 		this.driver = driver;
 	}

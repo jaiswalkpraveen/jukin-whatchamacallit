@@ -5,25 +5,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-
-import com.github.javafaker.Faker;
 import com.grails.managers.FileReaderManager;
 
-public class LoginPage {
-	WebDriver driver;
-	WebDriverWait wait = null;
-	Faker faker = new Faker();
-	
-	public LoginPage(WebDriver driver) { 
-		this.driver = driver;
+public class LoginPage extends BaseTestMethods {
+		
+	 public LoginPage(WebDriver driver) {
+		super(driver);
 		PageFactory.initElements(driver, this);
-		wait = new WebDriverWait(driver, FileReaderManager.getInstance().getConfigReader().getExplicitlyWait());
 	}
-	
-	 /**
+
+	/**
 	 * element locator of login page.
 	 */
 	
@@ -47,28 +38,26 @@ public class LoginPage {
 	
 	 /**
 	 * Application functions.
-	 * @throws InterruptedException 
 	 */
 	public void launchLoginPage() {
-		driver.get(FileReaderManager.getInstance().getConfigReader().getApplicationUrl("url"));		
+		driver.get(FileReaderManager.getInstance().getConfigReader().getApplicationUrl("url"));	
 	}
 
 	public void enterLoginCredential(String username, String password) {
-		wait.until(ExpectedConditions.visibilityOf(successLoginText));
-		usernameTextField.sendKeys(username);
-		passwordTextField.sendKeys(password);		
+		waitForElementToVisible(successLoginText);
+		typeInput(usernameTextField, username);
+		typeInput(passwordTextField, password);		
 	}
 
-
 	public void pressLogin() {
-		loginButton.click();		
+		click(loginButton);		
 	}
 
 	public void validateSuccessLogin(String expectedMessage) {	
-		Assert.assertEquals(successLoginText.getText(), expectedMessage, "Invalid credential" );
+		assertEqual(successLoginText.getText(), expectedMessage, "Invalid credential");
 	}	
 	
 	public void validateFailLogin(String expectedMessage) {
-		Assert.assertEquals(failLoginText.getText(), expectedMessage, "user didn't get warning for wrong cred" );	
+		assertEqual(failLoginText.getText(), expectedMessage, "user didn't get warning for wrong cred");	
 	}
 }

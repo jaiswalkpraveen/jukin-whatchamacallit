@@ -4,21 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
-import com.github.javafaker.Faker;
-import com.grails.managers.FileReaderManager;
-
-public class RegisterPage {
-	WebDriver driver;
-	WebDriverWait wait = null;
-	Faker faker = new Faker();
+public class RegisterPage extends BaseTestMethods{
 	
-	public RegisterPage(WebDriver driver) { 
-		this.driver = driver;
+	 public RegisterPage(WebDriver driver) {
+		super(driver);
 		PageFactory.initElements(driver, this);
-		wait = new WebDriverWait(driver, FileReaderManager.getInstance().getConfigReader().getExplicitlyWait());
 	}
 	
 	 /**
@@ -40,63 +31,40 @@ public class RegisterPage {
 	private WebElement regSubmitButton;
 	
 	@FindBy(id = "failedMessage")  
-	private WebElement regFailText;
+	private WebElement regFailTextArea;
 	
 	@FindBy(tagName = "h3")  
 	private WebElement successRegisterText;
 	
 	 /**
 	 * Application functions.
-	 * @throws InterruptedException 
 	 */
 
 	public void naviagteToRegisterPage() {
 		registerLink.click();		
 	}
 
-
-	public void validateRegisterPage(String expectedLink) {
-		String registerLink = driver.getCurrentUrl();
-		Assert.assertTrue(registerLink.contains(expectedLink), "user is not on registration page");	
+	public void validateRegisterPage(String expectedURI, String title) {
+		assertURL(getCurrentURL(), expectedURI, "User is not on register page");		
+		assertEqual(successRegisterText.getText(), title, "register page not loaded yet");
 	}
 
-
-	public void enterRegisterCredential(String password) {
-		regEmailTextField.sendKeys(faker.internet().emailAddress());	
-		regPasswordTextField.sendKeys(password);
-		regConfirmPasswordTextField.sendKeys(password);
+	public void enterCredential(String email, String password, String confirmationPwd) {
+			typeInput(regEmailTextField, email);
+			typeInput(regPasswordTextField, password);
+			typeInput(regConfirmPasswordTextField, confirmationPwd);
 	}
-
 
 	public void pressRegister() {
 		regSubmitButton.click();		
 	}
 
-	public void validateSucessRegister(String successMsg) {
-		Assert.assertEquals(successRegisterText.getText(), successMsg, "user couldn't register" );		
+	public void validateSuccessRegister(String successMsg) {
+		assertEqual(successRegisterText.getText(), successMsg, "user couldn't register with valid credential");	
 	}
-
-	private void enterRegPassword(String password, String confirmPassword) {
-		regPasswordTextField.sendKeys(password);
-		regConfirmPasswordTextField.sendKeys(confirmPassword);
-	}
-
-	public void enterRegInvalidCred(String email, String pwdType) {
-		String password = faker.internet().password();
-		regEmailTextField.sendKeys(email);
-		if(pwdType.equalsIgnoreCase("mismatch")) {
-			enterRegPassword(password, password+"mis");
-		}
-		else if(pwdType.equalsIgnoreCase("null")) {
-			enterRegPassword("", "");
-		}
-		else if(pwdType.equalsIgnoreCase("match")){
-			enterRegPassword(password, password);
-		}
-	}
-
 
 	public void validateIncorrectRegistrationText(String errorTxt) {
-		Assert.assertEquals(regFailText.getText(), errorTxt, "invalid registration text" );		
+		waitForElementToVisible(regFailTextArea);
+		assertEqual(regFailTextArea.getText(), errorTxt, "invalid registration text mismatch");		
 	}
 }

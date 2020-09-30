@@ -25,9 +25,9 @@ public class ForgotPasswordPageSteps {
 	public void user_validate_page(String link){
 		forgotPasswordPage.validateForgotPwdPage(link);
 	}
-
-	@When("^user enter mail \"([^\"]*)\"$")
-	public void user_enter_mail(String email){
+	
+	@When("^user enter mail as \"([^\"]*)\"$")
+	public void user_enter_mail_as(String email){
 		forgotPasswordPage.enterMailID(email);
 	}
 
@@ -38,12 +38,12 @@ public class ForgotPasswordPageSteps {
 	
 	@Then("^user validate text \"([^\"]*)\" and \"([^\"]*)\" in alert box$")
 	public void user_validate_text_and_in_alert_box(String title, String body){
-		forgotPasswordPage.validateForgotPwdText(title, body);
+		forgotPasswordPage.validateForgotPwdModalText(title, body);
 	}
 	
 	@Then("^user should shown error message \"([^\"]*)\"$")
 	public void user_should_shown_error_message(String error){
-		forgotPasswordPage.validateForgotPwdInvalidEmail(error);
+		forgotPasswordPage.validateForgotPwdErrorText(error);
 	}
 
 	

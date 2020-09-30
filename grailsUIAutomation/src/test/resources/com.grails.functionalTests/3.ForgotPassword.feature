@@ -8,18 +8,18 @@ Feature: Automate forgot password flow
 	    
 	@smoke
 	Scenario: Forgot password with valid mail
-	    When user enter mail "quality@jukinmedia.com" 
-	    And  click on Submit button
+	    When user enter mail as "quality@jukinmedia.com" 
+	    And  click on Submit button 
 	    Then user validate text "Password reset successfully" and "Check your email for password reset instructions." in alert box
 	    
 	@smoke    
  	Scenario Outline: Forgot password with invalid mail
-	    When user enter mail "<mail>" 
+	    When user enter mail as "<mail>" 
 	    And  click on Submit button
 	    Then user should shown error message "Please enter a valid email"
 	    
 	    Examples: 
 	    |mail					|
 	    |						|
-	    |praveen@gmail				|
-	    |praveen					|			
+	    |praveen@gmail			|
+	    |praveen				|			

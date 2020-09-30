@@ -4,22 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
-import com.github.javafaker.Faker;
-import com.grails.managers.FileReaderManager;
-
-public class ForgotPasswordPage {
-	WebDriver driver;
-	WebDriverWait wait = null;
-	Faker faker = new Faker();
+public class ForgotPasswordPage extends BaseTestMethods{
 	
-	public ForgotPasswordPage(WebDriver driver) { 
-		this.driver = driver;
+	 public ForgotPasswordPage(WebDriver driver) {
+		super(driver);
 		PageFactory.initElements(driver, this);
-		wait = new WebDriverWait(driver, FileReaderManager.getInstance().getConfigReader().getExplicitlyWait());
 	}
 	
 	 /**
@@ -53,36 +43,34 @@ public class ForgotPasswordPage {
 	
 	 /**
 	 * Application functions.
-	 * @throws InterruptedException 
 	 */
 
 
 	public void navigateForgotPwdPage() {
-		fpLink.click();		
+		click(fpLink);
 	}
 
-	public void validateForgotPwdPage(String expectedLink) {
-		String forgotPwdLink = driver.getCurrentUrl();
-		Assert.assertTrue(forgotPwdLink.contains(expectedLink), "user is not on forgot password page");		
+	public void validateForgotPwdPage(String expectedURI) {
+		assertURL(getCurrentURL(), expectedURI, "User is not on forgot password page");			
 	}
 
 	public void enterMailID(String email) {
-		fpEmailTextField.sendKeys(email);		
+		typeInput(fpEmailTextField, email);	
 	}
 
 	public void pressSubmit() {
-		fpSubmitButton.click();
+		click(fpSubmitButton);
 	}
 
-	public void validateForgotPwdText(String expTitle, String expBody) {
-		wait.until(ExpectedConditions.visibilityOf(fpSuccessModal));
-		Assert.assertEquals(fpSuccessTitle.getText(), expTitle, "Incorrect forgot password title" );
-		Assert.assertEquals(fpSuccessBody.getText(), expBody, "Incorrect forgot password body" );
-		fpCloseModal.click();	
+	public void validateForgotPwdModalText(String expTitle, String expBody) {
+		waitForElementToVisible(fpSuccessModal);
+		assertEqual(fpSuccessTitle.getText(), expTitle, "Incorrect forgot password title");
+		assertEqual(fpSuccessBody.getText(), expBody, "Incorrect forgot password body" );
+		click(fpCloseModal);
 	}
 
 
-	public void validateForgotPwdInvalidEmail(String error) {
-		Assert.assertEquals(fpWrongMailText.getText(), error, "Invalid forgot password validation message" );	
+	public void validateForgotPwdErrorText(String error) {
+		assertEqual(fpWrongMailText.getText(), error, "Invalid forgot password validation message");
 	}
 }

@@ -20,33 +20,28 @@ public class RegisterPageSteps {
 		registerPage.naviagteToRegisterPage();
 	}
 
-	@Then("^user validate register page link \"([^\"]*)\"$")
-	public void user_validate_register_page_link(String link){
-		registerPage.validateRegisterPage(link);
+	@Then("^user validate register page link \"([^\"]*)\" and title \"([^\"]*)\"$")
+	public void user_validate_register_page_link_and_title(String link, String title){
+		registerPage.validateRegisterPage(link,title);
+	}
+	
+	@When("^user enter email as \"([^\"]*)\", password as \"([^\"]*)\" and confirmation password as \"([^\"]*)\"$")
+	public void user_enter_email_as_password_as_and_confirmation_password_as(String email, String password, String confirmationPwd){
+		registerPage.enterCredential(email, password, confirmationPwd);
 	}
 
-	@When("^user enter mailID and password \"([^\"]*)\"$")
-	public void user_enter_mailID_and_password(String password) {
-		registerPage.enterRegisterCredential(password);
-	}
-
-	@When("^click on register Submit button$")
-	public void click_on_register_Submit_button() {
+	@When("^click on submit button$")
+	public void click_on_submit_button(){
 		registerPage.pressRegister();
 	}
 
-	@Then("^user should see \"([^\"]*)\"$")
-	public void user_should_see(String successMsg){
-		registerPage.validateSucessRegister(successMsg);
-	}
-	
-	@When("^user enter \"([^\"]*)\" mailID and \"([^\"]*)\"$")
-	public void user_enter_mailID_and(String email, String pwdType){
-		registerPage.enterRegInvalidCred(email, pwdType);
+	@Then("^user should shown success message as \"([^\"]*)\"$")
+	public void user_should_shown_success_message_as(String successMsg){
+		registerPage.validateSuccessRegister(successMsg);
 	}
 
-	@Then("^user should see validation \"([^\"]*)\"$")
-	public void user_should_see_validation(String errorTxt){
-		registerPage.validateIncorrectRegistrationText(errorTxt);
+	@Then("^user should get validation \"([^\"]*)\"$")
+	public void user_should_get_validation(String validationMsg){
+		registerPage.validateIncorrectRegistrationText(validationMsg);
 	}
 }
